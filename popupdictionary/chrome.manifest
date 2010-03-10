@@ -1,0 +1,4 @@
+content	popupdictionary	content/
+locale	popupdictionary	en-US	locale/en-US/
+skin	popupdictionary	classic/1.0	skin/
+overlay	chrome://browser/content/browser.xul	chrome://popupdictionary/content/firefoxOverlay.xul
