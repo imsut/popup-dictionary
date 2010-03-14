@@ -40,8 +40,9 @@
 
 <window id="popupdictionary.config"
         title="Popup Dictionary configuration"
+	onload="Config.onLoad();"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-        onload="Config.onLoad();">
+	xmlns:html="http://www.w3.org/1999/xhtml">
   <script src="chrome://popupdictionary/content/config.js"/>
 
   <tabbox>
@@ -101,12 +102,11 @@
       </tabpanel>
 
       <!-- About -->
-      <tabpanel equalsize="always">
-	<groupbox>
-	  <vbox>
-	    <description>Popup Dictionary is written by Kentaro KAWAMOTO &lt;kentaro.kawamoto@gmail.com&gt;.</description>
-	  </vbox>
-	</groupbox>
+      <tabpanel equalsize="always" id="tab-about">
+	<vbox>
+	  <description>Popup Dictionary is written by Kentaro KAWAMOTO &lt;kentaro.kawamoto@gmail.com&gt;.</description>
+	  <description style="width: 300px;">Icons were created by Mark James, and distributed at <html:a href="http://famfamfam.com/">http://famfamfam.com/</html:a> under Creative Commons Attribution License.</description>
+	</vbox>
       </tabpanel>
     </tabpanels>
   </tabbox>
