@@ -47,30 +47,56 @@
 
   <tabbox>
     <tabs equalsize="always">
-      <tab label="Basic" />
+      <tab label="Dictionary" />
+      <tab label="Key assign" />
       <tab label="Advanced" />
       <tab label="About" />
     </tabs>
 
     <tabpanels>
-      <!-- Basic -->
+      <!-- Dictionary -->
       <tabpanel equalsize="always">
-	<grid flex="1">
-          <columns>
-            <column />
-            <column />
-          </columns>
-          <rows>
-            <row>
-              <textbox id="url" value="http://eow.alc.co.jp/%s/UTF-8/" />
-              <description value="dictionary URL. %s will be replaced with the word." />
-            </row>
-            <row>
-              <textbox id="xpath" value="id('resultList')/ul/li[1]" />
-              <description value="XPath to extract a main part of the result page." />
-            </row>
-          </rows>
-	</grid>
+        <rows>
+          <row>
+            <description value="dictionary URL. %s will be replaced with the word:" />
+          </row>
+          <row>
+            <textbox id="url" value="http://eow.alc.co.jp/%s/UTF-8/" />
+          </row>
+          <row>
+            <description value="XPath to extract a main part of the result page:" />
+          </row>
+          <row>
+            <textbox id="xpath" value="id('resultList')/ul/li[1]" />
+          </row>
+        </rows>
+      </tabpanel>
+
+      <!-- Key assign -->
+      <tabpanel equalsize="always">
+        <rows>
+          <row>
+	    <description>How to popup dicrionary:</description>
+	  </row>
+          <row>
+	    <radiogroup id="how-to-popup">
+	      <radio label="by selecting a word" value="onSelect" />
+	      <radio label="by selecting a word and press a shortcut key" value="onKeyPress" />
+	    </radiogroup>
+	  </row>
+	  <row>
+	    <description>Shortcut key:</description>
+	    <textbox id="shortcut-key" maxLength="1" size="2" />
+	  </row>
+	  <row width="480">
+	    <description>Shortcut modifier:</description>
+	    <radiogroup id="shortcut-modifier">
+	      <radio label="Alt" value="Alt" />
+	      <radio label="Ctrl" value="Ctrl" />
+	      <radio label="Meta" value="Meta" />
+	    </radiogroup>
+	  </row>
+	</rows>
       </tabpanel>
 
       <!-- Advanced -->
@@ -82,20 +108,20 @@
           </columns>
           <rows>
             <row>
-              <textbox id="popup-width" value="320" type="number" />
               <description value="width of popup window" />
+              <textbox id="popup-width" value="320" type="number" />
             </row>
             <row>
-              <textbox id="popup-height" value="240" type="number" />
               <description value="height of popup window" />
+              <textbox id="popup-height" value="240" type="number" />
             </row>
             <row>
-              <textbox id="popup-offsetX" value="10" type="number" />
               <description value="X-offset of popup window wrt cursor position" />
+              <textbox id="popup-offsetX" value="10" type="number" />
             </row>
             <row>
-              <textbox id="popup-offsetY" value="10" type="number" />
               <description value="Y-offset of popup window wrt cursor position" />
+              <textbox id="popup-offsetY" value="10" type="number" />
             </row>
           </rows>
 	</grid>

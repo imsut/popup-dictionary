@@ -47,20 +47,38 @@ var Config = {
 	var type = a[1];
 	var prefName = this._prefix + '.' + id;
 	var elem = document.getElementById(id);
-	
+
+	var val = null;
 	switch (type) {
 	case 'int':
-	  elem.setAttribute('value', this._pref.getIntPref(prefName));
+	  val = this._pref.getIntPref(prefName);
 	  break;
 	case 'String':
-	  elem.setAttribute('value', this._pref.getCharPref(prefName));
+	  val = this._pref.getCharPref(prefName);
 	  break;
 	default:
 	  dump("Unknown type [" + type + "] for property [" + id + "]");
 	}
+	
+	switch (elem.tagName) {
+	case 'textbox':
+	  elem.setAttribute('value', val);
+	  break;
+	case 'radiogroup':
+	  var len = elem.itemCount;
+	  for (var ridx = 0; ridx < len; ridx++) {
+	    var radio = elem.getItemAtIndex(ridx);
+	    if (val == radio.value) elem.selectedIndex = ridx;
+	  }
+	  break;
+	default:
+	  dump("Unknown element [" + elem.tagName + "] for property [" + id + "]");
+	}
+	
       }
     } catch (error) {
       // no preference in the first time
+      dump("" + error.message + "\n");
     }
   },
 
@@ -88,8 +106,16 @@ var Config = {
 };
 
 Config.Vars = [
+  /* Dictionary pane */
   [ 'url', 'String' ],
   [ 'xpath', 'String' ],
+
+  /* Key assign pane */
+  [ 'how-to-popup', 'String' ],
+  [ 'shortcut-key', 'String' ],
+  [ 'shortcut-modifier', 'String' ],
+
+  /* Advanced pane */
   [ 'popup-width', 'int' ],
   [ 'popup-height', 'int' ],
   [ 'popup-offsetX', 'int' ],

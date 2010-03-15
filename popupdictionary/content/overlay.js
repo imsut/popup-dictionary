@@ -62,6 +62,15 @@ var popupdictionary = {
     }
   },
 
+  onFocus: function(e) {
+    this.howToPopup = this._pref.getCharPref(this._prefix + '.how-to-popup');
+    var shortcutKey = this._pref.getCharPref(this._prefix + '.shortcut-key');
+    if (shortcutKey && shortcutKey.length > 0) {
+      this.shortcutKeyCode = shortcutKey.toUpperCase().charCodeAt(0);
+      this.shortcutModifier = this._pref.getCharPref(this._prefix + '.shortcut-modifier');
+    }
+  },
+
   createPopup: function(url, txt) {
     var doc = window.content.document;
     var div = doc.getElementById(this.divId);
@@ -149,27 +158,54 @@ var popupdictionary = {
 
   onMouseup: function(e) {
     var sel = window.content.window.getSelection();
-    if (sel.toString().length > 0) {
-      var n = e.explicitOriginalTarget;
-      while (n) {
-	if (n.nodeType == Node.ELEMENT_NODE && n.id == this.divId) {
-	  return;
-	}
-	n = n.parentNode;
-      }
+    if (sel.toString().length == 0) return;
 
-/*
-	window.alert(
-	    "page: (" + e.pageX + ", " + e.pageY + ") / " +
-	    "screen: (" + e.screenX + ", " + e.screenY + ")");
-*/
-      this.cursorX = e.pageX;
-      this.cursorY = e.pageY;
-      this.sendRequest(sel.toString());
+    // ignore this event if it occurs in tooltip.
+    var n = e.explicitOriginalTarget;
+    while (n) {
+      if (n.nodeType == Node.ELEMENT_NODE && n.id == this.divId) {
+	return;
+      }
+      n = n.parentNode;
     }
+
+    this.cursorX = e.pageX;
+    this.cursorY = e.pageY;
+
+    if (this.howToPopup != 'onSelect') return;
+
+    this.sendRequest(sel.toString());
+  },
+
+  onKeyup: function(e) {
+    var sel = window.content.window.getSelection();
+    if (sel.toString().length == 0) return;
+    if (this.howToPopup != 'onKeyPress') return;
+
+    var modifier =
+      (this.shortcutModifier == 'Alt' && e.altKey) ||
+      (this.shortcutModifier == 'Ctrl' && e.ctrlKey) ||
+      (this.shortcutModifier == 'Meta' && e.metaKey);
+
+    dump("[PD] keyCode: " + e.keyCode + " / alt : " +
+	 e.altKey + " / ctrl: " + e.ctrlKey + " / meta: " + e.metaKey + "\n");
+    if (!modifier || e.keyCode != this.shortcutKeyCode) return;
+
+    var n = e.explicitOriginalTarget;
+    while (n) {
+      if (n.nodeType == Node.ELEMENT_NODE && n.id == this.divId) {
+	return;
+      }
+      n = n.parentNode;
+    }
+    
+    this.sendRequest(sel.toString());
+    e.stopPropagation();
   }
 
 };
 
 window.addEventListener("load", function(e) { popupdictionary.onLoad(e); }, false);
+window.addEventListener("focus", function(e) { popupdictionary.onFocus(e); }, false );
 window.addEventListener("mouseup", function(e) { popupdictionary.onMouseup(e); }, false );
+window.addEventListener("keyup", function(e) { popupdictionary.onKeyup(e); }, false );

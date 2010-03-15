@@ -1,18 +1,25 @@
+/*
 description {
     margin-top: 0px;
     margin-bottom: 0px;
     padding-top: 0px;
     padding-bottom: 0px;
 }
+*/
 
 textbox[type="number"] {
-    margin-top: 0px;
-    margin-bottom: 0px;
-    padding-top: 0px;
-    padding-bottom: 0px;
     width: 60px;
 }
 
-tabpanel#tab-about description {
-    width: 300px;
+textbox#url, textbox#xpath {
+    width: 100%;
+}
+
+radiogroup#how-to-popup {
+    margin-left: 30px;
+}
+
+radiogroup#shortcut-modifier {
+    float: left;
+    width: 20em;
 }
