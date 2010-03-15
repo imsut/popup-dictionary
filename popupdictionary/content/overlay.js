@@ -87,13 +87,15 @@ var popupdictionary = {
     var offsetY = this._pref.getIntPref(this._prefix + '.popup-offsetY');
 
     var s = div.style;
-    s.position = "absolute";
     s.display = "block";
+    s.margin = "0";
+    s.padding = "0";
+    s.border = "1px solid #666666";
+    s.position = "absolute";
     s.left = "" + (this.cursorX + offsetX) + "px";
     s.top = "" + (this.cursorY +offsetY) + "px";
     s.width = "" + width + "px";
     s.fontSize = "small";
-    s.border = "1px solid #666666";
     s.padding = "0";
     s.background = "white";
     s.textAlign = "left";
@@ -106,15 +108,15 @@ var popupdictionary = {
       "return false";
 
     div.innerHTML =
-      "<p style=\"height: 16px; background-color: #999999;\">" +
-      "<a href=\"" + url + "\" target=\"_popupdictionary\" onclick=\"" + openScript + "\" >" +
+      "<p style=\"padding: 0; height: 20px; background-color: #999999;\">" +
+      "<a href=\"" + url + "\" target=\"_popupdictionary\" onclick=\"" + openScript + "\">" +
       "<img src=\"data:image/png;base64," +
-      this.applicationDoubleB64 + "\" style=\"vertical-align: text-bottom;\" " +
-      "alt=\"Open in new page\" title=\"Open in new page\" /></a>" +
+      this.applicationDoubleB64 + "\" style=\"border: 0; vertical-align: text-bottom;\" " +
+      "alt=\"Open in new page\" title=\"Open in new page\"/></a>" +
       "<span style=\"margin: 0 5px; font-size: 12px; font-weight: bold;\">Popup Dictionary</span>" +
       "<a href=\"#\" onclick=\"" + closeScript + "\">" +
       "<img src=\"data:image/png;base64," +
-      this.crossB64 + "\" style=\"float: right; vertical-align: text-bottom;\" " +
+      this.crossB64 + "\" style=\"border: 0; float: right; vertical-align: text-bottom;\" " +
       "alt=\"Close this popup\" title=\"Close this popup\" /></a></p>" +
       "<div style=\"height: " + (height - 16) + "px; padding: 3px; overflow-y: scroll;\">" +
       txt + "</div>";
