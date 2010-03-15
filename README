@@ -1,0 +1,7 @@
+Popup Dictionary addon for Firefox 3.x
+
+Using this plugin, you can consult online dictionary for a word
+by just selecting the word or pressing some key after selecting.
+
+You can customize dictionary site URL and which part of the result
+page to be shown in tooltip window by XPath.
