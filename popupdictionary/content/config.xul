@@ -56,9 +56,39 @@
     <tabpanels>
       <!-- Dictionary -->
       <tabpanel equalsize="always">
+	<tree id="dict-selector" flex="1" editable="false"
+	      hidecolumnpicker="true" seltype="single">
+	  <treecols>
+	    <treecol type="checkbox" />
+	    <treecol id="col-name" label="Name" flex="1" />
+	    <treecol id="col-url" label="Dictionary URL" flex="1" />
+	    <treecol id="col-xpath" label="XPath" flex="1" />
+	  </treecols>
+
+	  <treechildren id="dicts">
+	    <treeitem>
+	      <treerow>
+		<treecell value="true" />
+		<treecell label='goo Dictionary' />
+		<treecell label='http://dictionary.goo.ne.jp/srch/ej/%s/m1u/' />
+		<treecell label='//div[@class="wordDefArea"]|//div[@class="enResultlist"]' />
+	      </treerow>
+	    </treeitem>
+	    <treeitem>
+	      <treerow>
+		<treecell value="false" />
+		<treecell label='Eijiro' />
+		<treecell label="http://eow.alc.co.jp/%s/UTF-8/" />
+		<treecell label="id('resultList')/ul/li[1]" />
+	      </treerow>
+	    </treeitem>
+	  </treechildren>
+
+	</tree>
+	<!--
         <rows>
           <row>
-            <description value="dictionary URL. %s will be replaced with the word:" />
+            <description value="dictionary URL. %s is replaced with the word:" />
           </row>
           <row>
             <textbox id="url" value="http://eow.alc.co.jp/%s/UTF-8/" />
@@ -70,6 +100,7 @@
             <textbox id="xpath" value="id('resultList')/ul/li[1]" />
           </row>
         </rows>
+	-->
       </tabpanel>
 
       <!-- Key assign -->
@@ -131,7 +162,7 @@
       <tabpanel equalsize="always" id="tab-about">
 	<vbox>
 	  <description>Popup Dictionary is written by Kentaro KAWAMOTO &lt;kentaro.kawamoto@gmail.com&gt;.</description>
-	  <description style="width: 300px;">Icons were created by Mark James, and distributed at <html:a href="http://famfamfam.com/">http://famfamfam.com/</html:a> under Creative Commons Attribution License.</description>
+	  <description style="width: 300px;">Icons were created by Mark James, and distributed at <html:a href="http://famfamfam.com/" target="_blank">http://famfamfam.com/</html:a> under Creative Commons Attribution License.</description>
 	</vbox>
       </tabpanel>
     </tabpanels>

@@ -39,6 +39,9 @@ var Config = {
   _pref: Components.classes['@mozilla.org/preferences;1'].getService(Components.interfaces.nsIPrefBranch),
 
   onLoad: function() {
+    // add event listener
+    window.addEventListener('dblclick', function(e) { Config.onDblClick(e); }, false);
+    
     try {
       var length = Config.Vars.length;
       for (var i = 0; i < length; i++) {
@@ -57,7 +60,7 @@ var Config = {
 	  val = this._pref.getCharPref(prefName);
 	  break;
 	default:
-	  dump("Unknown type [" + type + "] for property [" + id + "]");
+	  dump("[PD] Unknown type [" + type + "] for property [" + id + "]");
 	}
 	
 	switch (elem.tagName) {
@@ -72,13 +75,38 @@ var Config = {
 	  }
 	  break;
 	default:
-	  dump("Unknown element [" + elem.tagName + "] for property [" + id + "]");
+	  dump("[PD] Unknown element [" + elem.tagName + "] for property [" + id + "]");
 	}
-	
+      }
+
+      var url = this._pref.getCharPref(this._prefix + '.url');
+      var dicts = document.getElementById('dicts').children;
+      for (var i = 0; i < dicts.length; i++) {
+	var titem = dicts[i];
+	var trow = titem.firstChild;
+	var tcell0 = trow.children[0];
+	var tcell2 = trow.children[2];
+	tcell0.setAttribute('value', tcell2.getAttribute('label') == url ? "true" : "false");
       }
     } catch (error) {
       // no preference in the first time
-      dump("" + error.message + "\n");
+      dump("[PD] " + error.message + "\n");
+    }
+  },
+
+  onDblClick: function(e) {
+    var target = e.explicitOriginalTarget;
+    if (target.id != "dicts") return;
+
+    var selIdx = document.getElementById('dict-selector').currentIndex;
+    if (selIdx == -1) return;
+
+    var dicts = document.getElementById('dicts').children;
+    for (var i = 0; i < dicts.length; i++) {
+      var titem = dicts[i];
+      var trow = titem.firstChild;
+      var tcell = trow.firstChild;
+      tcell.setAttribute('value', i == selIdx ? "true" : "false");
     }
   },
 
@@ -99,16 +127,32 @@ var Config = {
 	this._pref.setCharPref(prefName, elem['value']);
 	break;
       default:
-	dump("Unknown type [" + type + "] for property [" + id + "]");
+	dump("[PD] Unknown type [" + type + "] for property [" + id + "]");
       }
     }
+
+    // set dictionary URL and XPath
+    var selIdx = document.getElementById('dict-selector').currentIndex;
+    var dicts = document.getElementById('dicts').children;
+
+    if (selIdx < 0 || selIdx >= dicts.length) selIdx = 0;
+    var titem = dicts[selIdx];
+    var trow = titem.firstChild;
+    var url = trow.children[2].getAttribute('label');
+    var xpath = trow.children[3].getAttribute('label');
+
+    dump("[PD] set url = " + url + ", xpath = " + xpath + "\n");
+    this._pref.setCharPref(this._prefix + '.url', url);
+    this._pref.setCharPref(this._prefix + '.xpath', xpath);
   }
 };
 
 Config.Vars = [
   /* Dictionary pane */
+/*
   [ 'url', 'String' ],
   [ 'xpath', 'String' ],
+*/
 
   /* Key assign pane */
   [ 'how-to-popup', 'String' ],

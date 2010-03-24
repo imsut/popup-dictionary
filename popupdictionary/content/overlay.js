@@ -126,22 +126,26 @@ var popupdictionary = {
     if (aEvent.originalTarget.nodeName != "#document") return;
 
     var doc = aEvent.originalTarget;
-
     var url = doc.location.href;
-    dump("[PD] URL = " + url + "\n");
-
     var xpath = this._pref.getCharPref(this._prefix + '.xpath');
+
     var rs = doc.evaluate(xpath,
-			      doc,
-			      null,
-			      XPathResult.ANY_TYPE,
-			      null);
+			  doc,
+			  null,
+			  XPathResult.ANY_TYPE,
+			  null);
+
+    dump("[PD] URL = " + url + ", XPath = " + xpath + "\n");
 
     var txt = '';
     var itr = rs.iterateNext();
     while (itr) {
       txt += itr.innerHTML;
       itr = rs.iterateNext();
+    }
+
+    if (txt.length == 0) {
+      txt = "Entry not found in the dictionary.";
     }
 
     this.createPopup(url, txt);
@@ -189,8 +193,10 @@ var popupdictionary = {
       (this.shortcutModifier == 'Ctrl' && e.ctrlKey) ||
       (this.shortcutModifier == 'Meta' && e.metaKey);
 
+    /*
     dump("[PD] keyCode: " + e.keyCode + " / alt : " +
 	 e.altKey + " / ctrl: " + e.ctrlKey + " / meta: " + e.metaKey + "\n");
+     */
     if (!modifier || e.keyCode != this.shortcutKeyCode) return;
 
     var n = e.explicitOriginalTarget;
